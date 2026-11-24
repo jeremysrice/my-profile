@@ -79,7 +79,8 @@
 
           <p>
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="6" placeholder="How can I help you?" required></textarea>
+            <textarea id="message" name="message" rows="6" maxlength="350" placeholder="How can I help you?" aria-describedby="message-count" required></textarea>
+            <span id="message-count" class="char-count">0 / 350 characters</span>
           </p>
 
           <button type="submit">Send message</button>
@@ -126,6 +127,19 @@
         content.hidden = isExpanded;
       });
     });
+
+    const messageBox = document.getElementById("message");
+    const messageCount = document.getElementById("message-count");
+    const maxChars = messageBox.maxLength;
+
+    function updateMessageCount() {
+      const length = messageBox.value.length;
+      messageCount.textContent = length + " / " + maxChars + " characters";
+      messageCount.classList.toggle("at-limit", length >= maxChars);
+    }
+
+    updateMessageCount();
+    messageBox.addEventListener("input", updateMessageCount);
   </script>
 </body>
 </html>
