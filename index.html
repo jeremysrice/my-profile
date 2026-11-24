@@ -22,6 +22,7 @@
     <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -49,6 +50,31 @@
           <li>CRM management and landing page creation</li>
           <li>Local SEO</li>
         </ul>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>
+        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="projects-content">Projects</button>
+      </h2>
+      <div id="projects-content">
+        <form id="project-form">
+          <p>
+            <label for="project-name">Project name</label>
+            <input type="text" id="project-name" name="project-name" required>
+          </p>
+
+          <p>
+            <label for="project-description">Description</label>
+            <textarea id="project-description" name="project-description" rows="3" required></textarea>
+          </p>
+
+          <button type="submit">Add Project</button>
+        </form>
+
+        <!-- Cards are rendered here by JavaScript from the projects array -->
+        <ul id="project-list"></ul>
+        <p id="project-empty" hidden>No projects yet. Add one above.</p>
       </div>
     </section>
 
@@ -140,6 +166,73 @@
 
     updateMessageCount();
     messageBox.addEventListener("input", updateMessageCount);
+
+    // ----- Projects -----
+    const projects = [
+      {
+        name: "Personal Profile Page",
+        description: "A responsive profile page built with HTML, CSS, and vanilla JavaScript."
+      },
+      {
+        name: "Tree Care Landing Page",
+        description: "A lead-generation landing page for a local tree care company."
+      }
+    ];
+
+    const projectForm = document.getElementById("project-form");
+    const projectNameInput = document.getElementById("project-name");
+    const projectDescriptionInput = document.getElementById("project-description");
+    const projectList = document.getElementById("project-list");
+    const projectEmpty = document.getElementById("project-empty");
+
+    function renderProjects() {
+      projectList.innerHTML = "";
+
+      projects.forEach(function (project, index) {
+        const card = document.createElement("li");
+        card.className = "project-card";
+
+        const title = document.createElement("h3");
+        title.textContent = project.name;
+
+        const description = document.createElement("p");
+        description.textContent = project.description;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "project-delete";
+        deleteButton.textContent = "×";
+        deleteButton.setAttribute("aria-label", "Delete " + project.name);
+        deleteButton.addEventListener("click", function () {
+          projects.splice(index, 1);
+          renderProjects();
+          projectNameInput.focus();
+        });
+
+        card.append(title, description, deleteButton);
+        projectList.append(card);
+      });
+
+      projectEmpty.hidden = projects.length > 0;
+    }
+
+    projectForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = projectNameInput.value.trim();
+      const description = projectDescriptionInput.value.trim();
+
+      if (name === "" || description === "") {
+        return;
+      }
+
+      projects.push({ name: name, description: description });
+      renderProjects();
+      projectForm.reset();
+      projectNameInput.focus();
+    });
+
+    renderProjects();
   </script>
 </body>
 </html>
