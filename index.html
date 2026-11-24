@@ -28,51 +28,63 @@
 
   <main>
     <section id="about">
-      <h2>About</h2>
-      <p>I served in the United States Marine Corps as a motor transport mechanic, including contingency operations for Enduring Freedom and Iraqi Freedom. I earned a Bachelor of Science in Computer and Information Science with a concentration in Network Security. I then spent years in IT support and network operations before running my own digital marketing business for tree care companies.</p>
+      <h2>
+        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="about-content">About</button>
+      </h2>
+      <div id="about-content">
+        <p>I served in the United States Marine Corps as a motor transport mechanic, including contingency operations for Enduring Freedom and Iraqi Freedom. I earned a Bachelor of Science in Computer and Information Science with a concentration in Network Security. I then spent years in IT support and network operations before running my own digital marketing business for tree care companies.</p>
+      </div>
     </section>
 
     <section id="skills">
-      <h2>Skills</h2>
-      <ul>
-        <li>Network monitoring and troubleshooting</li>
-        <li>Network security</li>
-        <li>Desktop, hardware, and end-user IT support</li>
-        <li>Facebook, Instagram, and Google ad campaigns</li>
-        <li>CRM management and landing page creation</li>
-        <li>Local SEO</li>
-      </ul>
+      <h2>
+        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="skills-content">Skills</button>
+      </h2>
+      <div id="skills-content">
+        <ul>
+          <li>Network monitoring and troubleshooting</li>
+          <li>Network security</li>
+          <li>Desktop, hardware, and end-user IT support</li>
+          <li>Facebook, Instagram, and Google ad campaigns</li>
+          <li>CRM management and landing page creation</li>
+          <li>Local SEO</li>
+        </ul>
+      </div>
     </section>
 
     <section id="contact">
-      <h2>Contact</h2>
-      <form>
-        <p>
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" autocomplete="name" required>
-        </p>
+      <h2>
+        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="contact-content">Contact</button>
+      </h2>
+      <div id="contact-content">
+        <form>
+          <p>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </p>
 
-        <p>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required>
-        </p>
+          <p>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </p>
 
-        <p>
-          <label for="subject">Subject</label>
-          <select id="subject" name="subject">
-            <option value="general">General</option>
-            <option value="project-inquiry">Project inquiry</option>
-            <option value="other">Other</option>
-          </select>
-        </p>
+          <p>
+            <label for="subject">Subject</label>
+            <select id="subject" name="subject">
+              <option value="general">General</option>
+              <option value="project-inquiry">Project inquiry</option>
+              <option value="other">Other</option>
+            </select>
+          </p>
 
-        <p>
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="How can I help you?" required></textarea>
-        </p>
+          <p>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" placeholder="How can I help you?" required></textarea>
+          </p>
 
-        <button type="submit">Send message</button>
-      </form>
+          <button type="submit">Send message</button>
+        </form>
+      </div>
     </section>
   </main>
 
@@ -102,6 +114,18 @@
 
     updateClock();
     setInterval(updateClock, 1000);
+
+    const sectionToggles = document.querySelectorAll(".section-toggle");
+
+    sectionToggles.forEach(function (toggle) {
+      const content = document.getElementById(toggle.getAttribute("aria-controls"));
+
+      toggle.addEventListener("click", function () {
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!isExpanded));
+        content.hidden = isExpanded;
+      });
+    });
   </script>
 </body>
 </html>

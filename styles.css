@@ -85,6 +85,42 @@ h2 {
   text-align: center;
 }
 
+/* Section titles that show/hide their content */
+.section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.section-toggle:hover {
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Chevron: points down when open, right when closed */
+.section-toggle::after {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.section-toggle[aria-expanded="false"]::after {
+  transform: rotate(-45deg);
+}
+
 #clock {
   color: var(--color-muted);
   font-size: 1.125rem;
