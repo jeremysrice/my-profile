@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <h2 id="greeting"></h2>
+  <p id="clock"><time></time></p>
+
   <header>
     <img src="jeremy.jpg" alt="Photo of Jeremy Rice" width="400" height="400">
     <hgroup>
@@ -76,5 +79,29 @@
   <footer>
     <p>&copy; 2026 Jeremy Rice. All rights reserved.</p>
   </footer>
+
+  <script>
+    const hour = new Date().getHours();
+    const greetingElement = document.getElementById("greeting");
+
+    if (hour < 12) {
+      greetingElement.textContent = "Good morning";
+    } else if (hour < 17) {
+      greetingElement.textContent = "Good afternoon";
+    } else {
+      greetingElement.textContent = "Good evening";
+    }
+
+    const clockElement = document.querySelector("#clock time");
+
+    function updateClock() {
+      const now = new Date();
+      clockElement.textContent = now.toLocaleTimeString();
+      clockElement.dateTime = now.toISOString();
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>

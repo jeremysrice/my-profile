@@ -81,6 +81,17 @@ h2 {
   font-size: 1.5rem;
 }
 
+#greeting {
+  text-align: center;
+}
+
+#clock {
+  color: var(--color-muted);
+  font-size: 1.125rem;
+  font-variant-numeric: tabular-nums; /* keeps digits from shifting as they change */
+  text-align: center;
+}
+
 p {
   margin: 0 0 1rem;
 }
