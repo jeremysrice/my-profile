@@ -458,8 +458,17 @@ button.skill-name:hover {
   list-style: none;
 }
 
+/* Long words or URLs with no spaces break onto the next line instead of
+   pushing past the card (and widening the page on phones) */
+.skill-name,
+.project-card h3,
+.project-card p {
+  overflow-wrap: anywhere;
+}
+
 .project-card {
   position: relative;
+  min-width: 0; /* lets the grid column shrink instead of stretching to fit long text */
   padding: 1rem 3rem 1rem 1.25rem; /* right padding leaves room for the × */
   background-color: #ffffff;
   box-shadow: 0 2px 6px rgba(30, 33, 36, 0.12), 0 1px 2px rgba(30, 33, 36, 0.08);

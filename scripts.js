@@ -174,7 +174,17 @@ function setupSkills() {
       removeButton.className = "skill-remove";
       removeButton.textContent = "Remove";
       removeButton.setAttribute("aria-label", "Remove " + skill.name);
+      // Keep focus where it is on mouse press, so a name being edited doesn't
+      // blur and redraw the list before the click lands (which ate the click)
+      removeButton.addEventListener("mousedown", function (e) {
+        e.preventDefault();
+      });
       removeButton.addEventListener("click", function () {
+        // Save any name edit in progress before the list is redrawn
+        if (document.activeElement && document.activeElement.classList.contains("skill-name-input")) {
+          document.activeElement.blur();
+        }
+
         skills.splice(index, 1);
         saveSkills();
         renderSkills();
@@ -189,10 +199,14 @@ function setupSkills() {
   // Swaps a skill's name for a text box in place.
   // Enter or clicking away saves; Escape cancels.
   function startEditingSkillName(nameButton, index) {
+    // Hold on to the skill object itself: if it's removed mid-edit, positions
+    // in the array shift and skills[index] would point at a different skill
+    const skill = skills[index];
+
     const input = document.createElement("input");
     input.type = "text";
     input.className = "skill-name-input";
-    input.value = skills[index].name;
+    input.value = skill.name;
     input.setAttribute("aria-label", "Skill name");
 
     let finished = false;
@@ -203,18 +217,23 @@ function setupSkills() {
       }
       finished = true;
 
+      // The skill was removed while being edited: nothing to save
+      if (!skills.includes(skill)) {
+        return;
+      }
+
       const newName = input.value.trim();
 
       // A blank name is ignored, so the old name stays
-      if (shouldSave && newName !== "" && newName !== skills[index].name) {
-        skills[index].name = newName;
+      if (shouldSave && newName !== "" && newName !== skill.name) {
+        skill.name = newName;
         saveSkills();
       }
 
       renderSkills();
 
       if (returnFocus) {
-        skillList.querySelector('[data-index="' + index + '"] .skill-name').focus();
+        skillList.querySelector('[data-index="' + skills.indexOf(skill) + '"] .skill-name').focus();
       }
     }
 
