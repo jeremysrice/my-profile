@@ -286,6 +286,41 @@ form {
   margin-bottom: 1.5rem;
 }
 
+#skill-count {
+  margin: 0.75rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  text-align: left;
+}
+
+/* Filter buttons above the skills list */
+.skill-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skill-filter {
+  padding: 0.375rem 1rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--color-accent);
+  font-size: 0.875rem;
+}
+
+.skill-filter:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 12%, #ffffff);
+}
+
+/* Active filter: solid teal background */
+.skill-filter[aria-pressed="true"],
+.skill-filter[aria-pressed="true"]:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
 /* Skill card: name on the left, level badge on the right */
 #skills li.skill {
   display: flex;
@@ -309,6 +344,34 @@ form {
 /* Name takes the free space so the badge and Remove button sit at the right */
 .skill-name {
   flex: 1;
+}
+
+/* The name is a button (so it's clickable), styled to look like plain text */
+button.skill-name {
+  padding: 0;
+  border-radius: 0.125rem;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: text;
+}
+
+/* Dotted underline on hover hints that the name can be edited */
+button.skill-name:hover {
+  background: none;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
+/* Text box that replaces the name while editing */
+.skill-name-input {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .skill-remove {
