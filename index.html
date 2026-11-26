@@ -378,7 +378,8 @@
     messageBox.addEventListener("input", updateMessageCount);
 
     // ----- Projects -----
-    const projects = [
+    // Starting list, used when nothing has been saved in localStorage yet
+    const defaultProjects = [
       {
         name: "Personal Profile Page",
         description: "A responsive profile page built with HTML, CSS, and vanilla JavaScript."
@@ -388,6 +389,36 @@
         description: "A lead-generation landing page for a local tree care company."
       }
     ];
+
+    const PROJECTS_STORAGE_KEY = "projects";
+
+    // Load saved projects, or fall back to the defaults if there are none
+    // (or if the saved data is missing, broken, or the wrong shape)
+    function loadProjects() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(PROJECTS_STORAGE_KEY));
+
+        if (Array.isArray(saved)) {
+          return saved.filter(function (project) {
+            return project && typeof project.name === "string" && typeof project.description === "string";
+          });
+        }
+      } catch (error) {
+        // Unreadable data or storage blocked: use the defaults below
+      }
+
+      return defaultProjects.slice();
+    }
+
+    function saveProjects() {
+      try {
+        localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+      } catch (error) {
+        // Storage full or blocked: changes still work until the page reloads
+      }
+    }
+
+    const projects = loadProjects();
 
     const projectForm = document.getElementById("project-form");
     const projectNameInput = document.getElementById("project-name");
@@ -415,6 +446,7 @@
         deleteButton.setAttribute("aria-label", "Delete " + project.name);
         deleteButton.addEventListener("click", function () {
           projects.splice(index, 1);
+          saveProjects();
           renderProjects();
           projectNameInput.focus();
         });
@@ -437,6 +469,7 @@
       }
 
       projects.push({ name: name, description: description });
+      saveProjects();
       renderProjects();
       projectForm.reset();
       projectNameInput.focus();
