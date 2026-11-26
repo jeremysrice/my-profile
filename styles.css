@@ -255,13 +255,24 @@ form {
    6. Skills (grid)
    --------------------------------------------------------- */
 /* Phone: one column so the cards stay readable */
+/* Flex-wrap instead of grid so a partly filled row (e.g. after
+   filtering) is centered rather than stuck to the left */
 #skills ul {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  --skill-columns: 1;
+  --skill-gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--skill-gap);
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Each card's width = row width split into equal columns, minus the gaps */
+#skills ul > li {
+  box-sizing: border-box;
+  width: calc((100% - (var(--skill-columns) - 1) * var(--skill-gap)) / var(--skill-columns));
 }
 
 #skills li {
@@ -323,11 +334,13 @@ form {
 }
 
 /* Skill card: name on the left, level badge on the right */
+/* Skill card: name gets its own full-width line, with the level badge
+   and Remove button on the line below, so long names have room */
 #skills li.skill {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.5rem 0.75rem;
   text-align: left;
 }
 
@@ -344,7 +357,7 @@ form {
 
 /* Name takes the free space so the badge and Remove button sit at the right */
 .skill-name {
-  flex: 1;
+  flex: 1 1 100%;
 }
 
 /* The name is a button (so it's clickable), styled to look like plain text */
@@ -377,6 +390,7 @@ button.skill-name:hover {
 
 .skill-remove {
   flex-shrink: 0;
+  margin-left: auto; /* pushes Remove to the right end of the badge line */
   padding: 0.25rem 0.625rem;
   border: 1px solid var(--color-border);
   background: none;
@@ -601,9 +615,9 @@ footer p {
     max-width: 65ch;
   }
 
-  /* Tablet: skills in 2 columns x 3 rows */
+  /* Tablet and up: skills in 2 columns (wide enough for long names) */
   #skills ul {
-    grid-template-columns: repeat(2, 1fr);
+    --skill-columns: 2;
   }
 
   /* Tablet and up: project cards side by side */
@@ -644,8 +658,4 @@ footer p {
     gap: 2rem;
   }
 
-  /* Skills: 3 columns x 2 rows */
-  #skills ul {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
