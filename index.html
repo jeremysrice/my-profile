@@ -42,14 +42,26 @@
         <button type="button" class="section-toggle" aria-expanded="true" aria-controls="skills-content">Skills</button>
       </h2>
       <div id="skills-content">
-        <ul>
-          <li>Network monitoring and troubleshooting</li>
-          <li>Network security</li>
-          <li>Desktop, hardware, and end-user IT support</li>
-          <li>Facebook, Instagram, and Google ad campaigns</li>
-          <li>CRM management and landing page creation</li>
-          <li>Local SEO</li>
-        </ul>
+        <form id="skill-form">
+          <p>
+            <label for="skill-name">Skill</label>
+            <input type="text" id="skill-name" name="skill-name" required>
+          </p>
+
+          <p>
+            <label for="skill-level">Level</label>
+            <select id="skill-level" name="skill-level">
+              <option value="learning">Learning</option>
+              <option value="practicing">Practicing</option>
+              <option value="confident">Confident</option>
+            </select>
+          </p>
+
+          <button type="submit">Add</button>
+        </form>
+
+        <!-- Skills are rendered here by renderSkills() from the skills array -->
+        <ul id="skill-list"></ul>
       </div>
     </section>
 
@@ -120,6 +132,73 @@
   </footer>
 
   <script>
+    // ----- Skills -----
+    const skills = [
+      { name: "Network monitoring and troubleshooting", level: "confident" },
+      { name: "Network security", level: "confident" },
+      { name: "Desktop, hardware, and end-user IT support", level: "confident" },
+      { name: "Facebook, Instagram, and Google ad campaigns", level: "confident" },
+      { name: "CRM management and landing page creation", level: "confident" },
+      { name: "Local SEO", level: "confident" },
+      { name: "HTML", level: "practicing" },
+      { name: "CSS", level: "practicing" },
+      { name: "JavaScript", level: "learning" }
+    ];
+
+    const skillForm = document.getElementById("skill-form");
+    const skillNameInput = document.getElementById("skill-name");
+    const skillLevelSelect = document.getElementById("skill-level");
+    const skillList = document.getElementById("skill-list");
+
+    function renderSkills() {
+      skillList.innerHTML = "";
+
+      skills.forEach(function (skill, index) {
+        const item = document.createElement("li");
+        item.className = "skill";
+
+        const name = document.createElement("span");
+        name.className = "skill-name";
+        name.textContent = skill.name;
+
+        const level = document.createElement("span");
+        level.className = "skill-level skill-level--" + skill.level;
+        level.textContent = skill.level;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "skill-remove";
+        removeButton.textContent = "Remove";
+        removeButton.setAttribute("aria-label", "Remove " + skill.name);
+        removeButton.addEventListener("click", function () {
+          skills.splice(index, 1);
+          renderSkills();
+          skillNameInput.focus();
+        });
+
+        item.append(name, level, removeButton);
+        skillList.append(item);
+      });
+    }
+
+    skillForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = skillNameInput.value.trim();
+
+      if (name === "") {
+        return;
+      }
+
+      skills.push({ name: name, level: skillLevelSelect.value });
+      renderSkills();
+      skillForm.reset();
+      skillNameInput.focus();
+    });
+
+    renderSkills();
+
+    // ----- Greeting -----
     const hour = new Date().getHours();
     const greetingElement = document.getElementById("greeting");
 

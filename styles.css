@@ -282,6 +282,66 @@ form {
   box-shadow: 0 8px 16px rgba(30, 33, 36, 0.16), 0 3px 6px rgba(30, 33, 36, 0.10);
 }
 
+#skill-form {
+  margin-bottom: 1.5rem;
+}
+
+/* Skill card: name on the left, level badge on the right */
+#skills li.skill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.skill-level {
+  flex-shrink: 0;
+  padding: 0.125rem 0.625rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+}
+
+/* Name takes the free space so the badge and Remove button sit at the right */
+.skill-name {
+  flex: 1;
+}
+
+.skill-remove {
+  flex-shrink: 0;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--color-border);
+  background: none;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.skill-remove:hover {
+  border-color: #b3261e;
+  background-color: color-mix(in srgb, #b3261e 12%, transparent);
+  color: #b3261e;
+}
+
+/* Badge fill deepens as the level goes up */
+.skill-level--learning {
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+.skill-level--practicing {
+  background-color: color-mix(in srgb, var(--color-accent) 15%, #ffffff);
+  color: var(--color-accent);
+}
+
+.skill-level--confident {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
 /* No motion for people who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   #skills li {
